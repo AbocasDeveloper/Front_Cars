@@ -1,0 +1,51 @@
+<div class="col-md-12" *ngIf="page_title">
+    <h2>{{page_title}}</h2><hr>
+
+    <div class="alert alert-warning" *ngIf="loading">
+        CARGANDO... <br>
+    </div>
+
+    <div class="alert alert-success" *ngIf="statusCar == 'success'">
+        EL COCHE SE HA GUARDADO CORRECTAMENTE
+    </div>
+
+    <div class="alert alert-danger" *ngIf="statusCar == 'error'">
+        EL COCHE NO SE HA GUARDADO CORRECTAMENTE<BR>
+        INTENTELO DE NUEVO, SOLUCIONANDO EL ERROR: <BR>
+        {{messageError}}
+    </div>
+
+    <form #carNew="ngForm" (ngSubmit)="onSubmit(carNew)" class="col-md-5">
+
+        <p>
+            <label for="title">TITULO</label>
+            <input type="text" name="title" #title="ngModel" [(ngModel)]="car.title" class="form-control" required>
+            <span *ngIf="!title.valid && title.touched" style="color:red">CAMPO TITULO ES OBLIGATORIO</span>
+        </p>
+
+        <p>
+            <label for="description">DESCRIPCIÓN</label>
+            <textarea type="text" name="description" #description="ngModel" [(ngModel)]="car.description" class="form-control" required></textarea>
+            <span *ngIf="!description.valid && description.touched" style="color:red">CAMPO DESCRIPCIÓN ES OBLIGATORIO</span>
+        </p>
+
+        <p>
+            <label for="price">PRECIO</label>
+            <input type="number" name="price" #price="ngModel" [(ngModel)]="car.price" class="form-control" required>
+            <span *ngIf="!price.valid && price.touched" style="color:red">CAMPO PRECIO ES OBLIGATORIO</span>
+        </p>
+
+        <p>
+            <label for="status">¿A la venta?</label>
+            <select name="status" #status="ngModel" [(ngModel)]="car.status" class="form-control" required>
+                <option value="true">SI</option>
+                <option value="false">NO</option>
+            </select>
+            <span *ngIf="!status.valid && status.touched" style="color:red">CAMPO OBLIGATORIO</span>
+        </p>
+
+        <input type="submit" value="GUARDAR" class="btn btn-primary" [disabled]="!carNew.form.valid">
+
+    </form>
+</div>
+

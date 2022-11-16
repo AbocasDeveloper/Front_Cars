@@ -1,0 +1,59 @@
+<div class="loading alert alert-danger" *ngIf="cars.length == 0">
+    AUN NO HAY COCHES GUARDADOS
+</div>
+
+<div class="loading alert alert-warning" *ngIf="!cars">
+    Cargando datos...
+</div>
+
+<div class="col-md-12" *ngIf="cars && cars.length != 0">
+
+    <div class="alert alert-success" *ngIf="delete">
+        COCHE ELIMINADO CORRECTAMENTE <br>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="delete == false">
+        COCHE NO ELIMINADO<br>
+    </div>
+
+    <h2>{{title}}</h2><hr>
+
+    <table class="table" id="carsList">
+        <thead>
+        <tr>
+            <th scope="col" class="col-md-7">VEHICULO</th>
+            <th scope="col">PRECIO</th>
+            <th scope="col">¿A LA VENTA?</th>
+            <th scope="col">ACCIONES</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--Agregamos la paginacion al ngFor-->
+        <tr *ngFor="let car of cars | paginate: {itemsPerPage: 5, currentPage: page}">
+            <td class="col-md-7">
+                <a [routerLink]="['/coche/', car.id]">{{car.title}}</a>
+            </td>
+            <td>
+                <!--{{car.user_id}}-->
+                {{car.price}}
+            </td>
+            <td>
+                <span *ngIf="car.status == 'true'">Si</span>
+                <span *ngIf="car.status == 'false'">No</span>
+            </td>
+            <td>
+                <button [disabled]="!token || this.car.user_id != this.identity['sub']" [routerLink]="['/editar-coche/', car.id]" class="btn btn-warning">EDITAR</button>
+                <button [disabled]="!token || this.car.user_id != this.identity['sub']" (click)="deleteCar(car.id)" class="btn btn-danger">EDITAR</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--CONTORLES PARA LA PAGINACION-->
+    <pagination-controls
+        (pageChange)="page = $event"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+    </pagination-controls>
+
+</div>
